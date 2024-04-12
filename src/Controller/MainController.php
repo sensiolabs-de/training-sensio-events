@@ -14,9 +14,9 @@ class MainController extends AbstractController
     {
         $name = $request->query->get('name', 'World');
 
-        $content = sprintf("<html><body><h1>Hello %s</h1></body>", $name);
-
-        return new Response($content);
+        return $this->render('main/index.html.twig', [
+            'name' => $name,
+        ]);
     }
 
     #[Route('/contact', name: 'app_main_contact')]
