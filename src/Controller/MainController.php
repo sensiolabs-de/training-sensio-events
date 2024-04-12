@@ -14,12 +14,14 @@ class MainController extends AbstractController
     {
         $name = $request->query->get('name', 'World');
 
-        return new Response('Hello '.$name);
+        $content = sprintf("<html><body><h1>Hello %s</h1></body>", $name);
+
+        return new Response($content);
     }
 
     #[Route('/contact', name: 'app_main_contact')]
     public function contact(): Response
     {
-        return new Response('Contact');
+        return new Response('<html><body><h1>Contact</h1></body>');
     }
 }
