@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +20,9 @@ class MainController extends AbstractController
         ]);
     }
 
+    #[Template('main/contact.html.twig')]
     #[Route('/contact', name: 'app_main_contact')]
-    public function contact(): Response
+    public function contact(): void
     {
-        return new Response('<html><body><h1>Contact</h1></body>');
     }
 }
