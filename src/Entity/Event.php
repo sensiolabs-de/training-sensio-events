@@ -46,6 +46,9 @@ class Event
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'events')]
     private Collection $organizations;
 
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?Project $project = null;
+
     public function __construct()
     {
         $this->volunteers = new ArrayCollection();
@@ -179,6 +182,18 @@ class Event
     public function removeOrganization(Organization $organization): static
     {
         $this->organizations->removeElement($organization);
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): static
+    {
+        $this->project = $project;
 
         return $this;
     }
