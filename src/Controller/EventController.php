@@ -45,4 +45,10 @@ class EventController extends AbstractController
 
         return $this->json($events);
     }
+
+    #[Route('/event/{id}', name: 'app_event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function showEvent(Event $event): Response
+    {
+        return $this->json(['id' => $event->getId(), 'name' => $event->getName()]);
+    }
 }
