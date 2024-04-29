@@ -38,17 +38,18 @@ class EventController extends AbstractController
     #[Route('/events', name: 'app_event_list', methods: ['GET'])]
     public function listEvents(EventRepository $repository): Response
     {
-        $events = [];
-        foreach ($repository->findAll() as $event) {
-            $events[] = ['id' => $event->getId(), 'name' => $event->getName()];
-        }
+        $events = $repository->findAll();
 
-        return $this->json($events);
+        return $this->render('event/list_events.html.twig', [
+            'events' => $events,
+        ]);
     }
 
     #[Route('/event/{id}', name: 'app_event_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function showEvent(Event $event): Response
     {
-        return $this->json(['id' => $event->getId(), 'name' => $event->getName()]);
+        return $this->render('event/show_event.html.twig', [
+            'event' => $event,
+        ]);
     }
 }
