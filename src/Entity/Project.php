@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
@@ -16,9 +17,13 @@ class Project
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 10)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 30)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $summary = null;
 
@@ -31,12 +36,15 @@ class Project
     /**
      * @var Collection<int, Organization>
      */
+    #[Assert\Count(min: 1)]
+    #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'projects')]
     private Collection $organizations;
 
     /**
      * @var Collection<int, Event>
      */
+    #[Assert\Valid]
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'project')]
     private Collection $events;
 

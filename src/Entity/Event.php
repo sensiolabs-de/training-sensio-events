@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -16,21 +17,31 @@ class Event
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 10)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 30)]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Assert\NotNull]
     #[ORM\Column]
     private ?bool $accessible = null;
 
+    #[Assert\Length(min: 20)]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $prerequisites = null;
 
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual('today')]
     #[ORM\Column]
     private ?\DateTimeImmutable $startAt = null;
 
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(propertyPath: 'startAt')]
     #[ORM\Column]
     private ?\DateTimeImmutable $endAt = null;
 
@@ -43,9 +54,12 @@ class Event
     /**
      * @var Collection<int, Organization>
      */
+    #[Assert\Count(min: 1)]
+    #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'events')]
     private Collection $organizations;
 
+    #[Assert\Valid]
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?Project $project = null;
 
