@@ -35,6 +35,8 @@ class ProjectController extends AbstractController
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
 
-        return new Response('Project created');
+        return $this->render('project/new_project.html.twig', [
+            'form' => $form,
+        ]);
     }
 }

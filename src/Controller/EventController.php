@@ -36,6 +36,8 @@ class EventController extends AbstractController
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
 
-        return new Response('Event created');
+        return $this->render('event/new_event.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
