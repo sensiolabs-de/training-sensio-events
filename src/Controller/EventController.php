@@ -7,7 +7,6 @@ use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -32,21 +31,11 @@ class EventController extends AbstractController
     }
 
     #[Route('/event/new', name: 'app_event_new', methods: ['GET', 'POST'])]
-    public function newEvent(Request $request, EntityManagerInterface $manager): Response
+    public function newEvent(): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($event);
-            $manager->flush();
-
-            return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
-        }
-
-        return $this->render('event/new_event.html.twig', [
-            'form' => $form,
-        ]);
+        return new Response('Event created');
     }
 }
