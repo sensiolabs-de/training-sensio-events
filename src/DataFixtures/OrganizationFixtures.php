@@ -19,6 +19,7 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 15; $i <= 25; $i++) {
             $org->addEvent($this->getReference(EventFixtures::SF_LIVE.$i));
         }
+        $org->addProject($this->getReference(ProjectFixtures::SFLIVE_PROJECT));
 
         $manager->persist($org);
         $manager->flush();
@@ -28,6 +29,7 @@ class OrganizationFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             EventFixtures::class,
+            ProjectFixtures::class
         ];
     }
 }
