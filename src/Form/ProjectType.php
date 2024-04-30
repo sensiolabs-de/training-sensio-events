@@ -19,14 +19,6 @@ class ProjectType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('summary', TextareaType::class)
-            ->add('createdAt', DateType::class, [
-                'widget' => 'single_text',
-                'input' => 'datetime_immutable',
-            ])
-            ->add('updatedAt', DateType::class, [
-                'widget' => 'single_text',
-                'input' => 'datetime_immutable',
-            ])
             ->add('organizations', EntityType::class, [
                 'class' => Organization::class,
                 'choice_label' => 'name',
