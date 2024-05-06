@@ -2,10 +2,20 @@
 
 namespace App\Search;
 
+use App\Repository\EventRepository;
+
 class DatabaseEventSearch
 {
+    public function __construct(protected readonly EventRepository $repository)
+    {
+    }
+
     public function searchByName(?string $name = null): array
     {
-        return [];
+        if (null === $name) {
+            return $this->repository->findAll();
+        }
+
+        return $this->repository->findLikeName($name);
     }
 }
