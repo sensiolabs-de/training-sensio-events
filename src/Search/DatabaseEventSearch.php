@@ -4,7 +4,7 @@ namespace App\Search;
 
 use App\Repository\EventRepository;
 
-class DatabaseEventSearch
+class DatabaseEventSearch implements EventSearchInterface
 {
     public function __construct(protected readonly EventRepository $repository)
     {
