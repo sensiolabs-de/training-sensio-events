@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<Event>
@@ -40,6 +41,16 @@ class EventRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function findLikeName(string $name): array
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        return $qb->andWhere($qb->expr()->like('e.name', ':name'))
+            ->setParameter('name', sprintf("%%%s%%", $name))
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
