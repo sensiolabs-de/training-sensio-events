@@ -3,8 +3,10 @@
 namespace App\Consumer;
 
 use App\Search\EventSearchInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+#[AsAlias]
 class EventsApiConsumer implements EventSearchInterface
 {
     public function __construct(
