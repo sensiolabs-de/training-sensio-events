@@ -6,6 +6,14 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
+    http_client:
+        scoped_clients:
+            events.client:
+                base_uri: 'https://www.devents-api.fr'
+                headers:
+                    Accept: 'application/json'
+                    apikey: '%env(EVENTS_API_KEY)%'
+
     #esi: true
     #fragments: true
 
