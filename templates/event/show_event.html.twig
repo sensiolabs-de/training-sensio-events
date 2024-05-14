@@ -19,7 +19,9 @@
                                     <p>From <span
                                                 class="fw-semibold">{{ event.startAt|date('d/m/y') }}</span> to
                                         <span class="fw-semibold">{{ event.endAt|date('d/m/y') }}</span></p>
-                                    <p class="my-0">Project: <a href="{{ path('app_project_show', {id: event.project.id}) }}">{{ event.project.name }}</a></p>
+                                    {% if event.project is not null %}
+                                        <p class="my-0">Project: <a href="{{ path('app_project_show', {id: event.project.id}) }}">{{ event.project.name }}</a></p>
+                                    {% endif %}
                                     {% set orgs = [] %}
                                     {% for orga in event.organizations %}
                                         {% set orgs = orgs|merge([{link: path('app_organization_show', {id: orga.id}), name: orga.name}]) %}

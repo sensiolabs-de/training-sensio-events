@@ -27,7 +27,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/events/search', name: 'app_event_search', methods: ['GET'])]
-    #[Template('event/search_events.html.twig')]
+    #[Template('event/list_events.html.twig')]
     public function searchEvents(Request $request, EventSearchInterface $search): array
     {
         $events = $search->searchByName($request->query->get('name', null))['hydra:member'];
