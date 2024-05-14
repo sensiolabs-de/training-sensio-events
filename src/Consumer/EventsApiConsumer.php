@@ -17,8 +17,14 @@ class EventsApiConsumer implements EventSearchInterface
 
     public function searchByName(?string $name = null): array
     {
-        return $this->eventsClient->request('GET', 'https://www.devevents-api.fr/api/events', [
-            'query' => ['name' => $name],
-        ])->toArray();
+        $options = [];
+
+        if (null !== $name) {
+            $options['query'] = ['name' => $name];
+        }
+
+        return $this->eventsClient
+            ->request('GET', '/events', $options)
+            ->toArray();
     }
 }

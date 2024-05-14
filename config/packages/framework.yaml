@@ -9,7 +9,7 @@ framework:
     http_client:
         scoped_clients:
             events.client:
-                base_uri: 'https://www.devents-api.fr'
+                base_uri: 'https://www.devevents-api.fr'
                 headers:
                     Accept: 'application/json'
                     apikey: '%env(EVENTS_API_KEY)%'
