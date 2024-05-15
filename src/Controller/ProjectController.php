@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Security\Voter\EditionVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,14 +33,22 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/project/new', name: 'app_project_new', methods: ['GET', 'POST'])]
-    public function newProject(Request $request, EntityManagerInterface $manager): Response
+    #[Route('/project/{id}/edit', name: 'app_project_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function newProject(?Project $project, Request $request, EntityManagerInterface $manager): Response
     {
-        $project = new Project();
+        if ($project instanceof Project) {
+            $this->denyAccessUnlessGranted(EditionVoter::PROJECT, $project);
+        }
+
+        $project ??= new Project();
         $form = $this->createForm(ProjectType::class, $project);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $project->setCreatedAt(new \DateTimeImmutable());
+            if (!$project->getId()) {
+                $project->setCreatedBy($this->getUser());
+            }
 
             $manager->persist($project);
             $manager->flush();

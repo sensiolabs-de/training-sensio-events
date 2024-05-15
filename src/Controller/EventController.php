@@ -7,6 +7,7 @@ use App\Form\EventType;
 use App\Repository\EventRepository;
 use App\Search\DatabaseEventSearch;
 use App\Search\EventSearchInterface;
+use App\Security\Voter\EditionVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,13 +45,21 @@ class EventController extends AbstractController
     }
 
     #[Route('/event/new', name: 'app_event_new', methods: ['GET', 'POST'])]
-    public function newEvent(Request $request, EntityManagerInterface $manager): Response
+    #[Route('/event/{id}/edit', name: 'app_event_edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
+    public function newEvent(?Event $event, Request $request, EntityManagerInterface $manager): Response
     {
-        $event = new Event();
+        if ($event instanceof Event) {
+            $this->denyAccessUnlessGranted(EditionVoter::EVENT, $event);
+        }
+
+        $event ??= new Event();
         $form = $this->createForm(EventType::class, $event);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$event->getId()) {
+                $event->setCreatedBy($this->getUser());
+            }
             $manager->persist($event);
             $manager->flush();
 
