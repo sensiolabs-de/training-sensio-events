@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\VolunteerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+#[Groups('Volunteer')]
 #[ORM\Entity(repositoryClass: VolunteerRepository::class)]
 class Volunteer
 {

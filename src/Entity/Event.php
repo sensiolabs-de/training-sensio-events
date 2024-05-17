@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {
+    #[Groups('Volunteer')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,6 +21,7 @@ class Event
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 10)]
+    #[Groups('Volunteer')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -56,6 +59,7 @@ class Event
      */
     #[Assert\Count(min: 1)]
     #[Assert\Valid]
+    #[Groups('Volunteer')]
     #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'events')]
     private Collection $organizations;
 
